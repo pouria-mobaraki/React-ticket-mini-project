@@ -8,16 +8,37 @@ export default class Ticket extends React.Component {
 
         this.state = {
             countriesData: {
-                Iran: ["Tabriz", "Tehran", "Shiraz", "Esfahan", "Mashhad"],
+                Iran: ["Tehran", "Tabriz", "Shiraz", "Esfahan", "Mashhad"],
+                England:['London','Machester','Liverpool'],
                 Turkey: ["Istanbul", "Ezmir", "Ankara", "Antaliya"],
                 US: ["Los Angles", "San Diego", "Chicago"],
+                Netherland:['Amesterdam','Roterdam'],
+                France:['Paris','Monako'],
+                Italy:['Rome','Torin','Milan','Felorance']
             },
             mainCountryCities: []
         }
+
+        this.selectHandler=this.selectHandler.bind(this)
     }
 
-    selectHandler(e){
-    console.log(e);
+    selectHandler(event){
+    let mainCountry= event.target.value
+
+    if(mainCountry===-1){
+    this.setState(
+       { mainCountryCities:[]}
+    )
+    }else{
+        let mainCountryCities = this.state.countriesData[mainCountry]
+
+        this.setState(
+           {mainCountryCities:mainCountryCities} 
+        )
+    }
+  
+    
+
    }
     render() {
         return (
@@ -36,16 +57,28 @@ export default class Ticket extends React.Component {
                     <input className="emailInput" placeholder="Email" />
                 </div>
                 <div className="col-md-6 box">
-                    <select className="countrySelect" onChange={(event)=>{this.selectHandler(event).bind(this)}}>
+                    <select className="countrySelect" onChange={this.selectHandler}>
                         <option value="-1">Please Select ...</option>
                         <option className="option" value="Iran">Iran</option>
+                        <option className="option" value="England">England</option>
                         <option className="option" value="Turkey">Turkey</option>
                         <option className="option" value="US">United State</option>
+                        <option className="option" value="Netherland">Netherland</option>
+                        <option className="option" value="France">France</option>
+                        <option className="option" value="Italy">Italy</option>
                     </select>
                 </div>
                 <div className="col-md-6 box">
                     <select className="citySelect">
+                            {/* <option value="-1">Please Select City</option> */}
+                            {this.state.mainCountryCities.length? (
+                            this.state.mainCountryCities.map((city)=>{ 
+                              return  <option value={city}>{city}</option>
+                              })
+                            ):
                             <option value="-1">Please Select City</option>
+                            }
+
                     </select>
                 </div>
                 <div className="col-md-12 box">
